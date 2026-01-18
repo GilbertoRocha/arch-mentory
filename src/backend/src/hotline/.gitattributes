@@ -1,0 +1,46 @@
+# Definir padrão para texto como LF (Unix-style)
+* text=auto eol=lf
+
+# Arquivos C# e relacionados sempre tratados como texto
+*.cs     text diff=csharp
+*.csproj text
+*.sln    text eol=crlf
+*.props  text
+*.targets text
+
+# JSON, XML, YAML sempre como texto
+*.json   text
+*.xml    text
+*.yml    text
+*.yaml   text
+
+# Scripts
+*.sh     text eol=lf
+*.ps1    text eol=crlf
+*.cmd    text eol=crlf
+*.bat    text eol=crlf
+
+# Markdown e documentação
+*.md     text
+*.txt    text
+
+# Binários e artefatos compilados (não normalizar)
+*.dll    binary
+*.exe    binary
+*.pdb    binary
+*.so     binary
+*.dylib  binary
+*.nupkg  binary
+*.snupkg binary
+
+# Imagens
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.ico    binary
+
+# Cobertura e relatórios
+*.coverage binary
+*.cov     binary
+*.lcov    binary

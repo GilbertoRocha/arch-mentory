@@ -1,0 +1,46 @@
+{
+	// Editor
+	"editor.tabSize": 4,
+	"editor.insertSpaces": true,
+	"editor.detectIndentation": false,
+	"editor.formatOnSave": true,
+	"editor.formatOnType": true,
+	"editor.defaultFormatter": "ms-dotnettools.csharp",
+	"editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    },
+	// Files
+	"files.encoding": "utf8",
+	"files.eol": "\n",
+	"files.trimTrailingWhitespace": true,
+	"files.insertFinalNewline": true,
+	// Terminal integrado usando zsh
+	"terminal.integrated.defaultProfile.linux": "zsh",
+	"terminal.integrated.profiles.linux": {
+		"zsh": {
+			"path": "/bin/zsh"
+		}
+	},
+	"terminal.integrated.fontFamily": "MesloLGS NF",
+	// C# / .NET
+	"dotnet.defaultSolution": "ProductCatalog.sln",
+	"dotnet.server.useOmnisharp": true,
+	"omnisharp.enableRoslynAnalyzers": true,
+	"omnisharp.enableEditorConfigSupport": true,
+	"omnisharp.enableDecompilationSupport": true,
+	// Testes
+	"dotnet.testExplorer.autoWatch": true,
+	"dotnet.testExplorer.showCodeLens": true,
+	// Extensões recomendadas
+	"extensions.recommendations": [
+		"ms-dotnettools.csharp",
+		"ms-dotnettools.vscode-dotnet-runtime",
+		"ms-dotnettools.vscode-dotnet-test-explorer",
+		"editorconfig.editorconfig",
+		"streetsidesoftware.code-spell-checker"
+	],
+	// Git
+	"git.autofetch": true,
+	"git.confirmSync": false,
+	"git.enableSmartCommit": true
+}
