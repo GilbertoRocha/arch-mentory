@@ -1,10 +1,20 @@
 ## Objetivo
-#### Definir as tecnologias utilizadas para orquestração de conteiner
+#### Definir as tecnologia utilizadas para simular o K8s em ambiente de desenvolvimento
+Para o ambiente de desenvolvimento, rodar o Kubernets (K8s) pode ser excessivo, complexo e 
 
-#### Finalizado em 15 jan 2026
 
-### Orquestração
-Definir como ou o que irá orquestrar os aplicativos, considerando o nivel de autonomia (menos monitoramento e iteração humana possivel), leveza, escalabilidade e downtime necessário para atualização
+
+#### Finalizado em 
+
+
+
+
+- Kind
+- K3s
+- K3d
+- Minikube
+- MicroK8s
+
 
 #### Resultado:
 - Kubernet
