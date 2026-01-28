@@ -1,6 +1,0 @@
-<Solution>
-  <Folder Name="/src/" />
-  <Folder Name="/src/hotline/">
-    <Project Path="src/hotline/Hotline.csproj" />
-  </Folder>
-</Solution>
