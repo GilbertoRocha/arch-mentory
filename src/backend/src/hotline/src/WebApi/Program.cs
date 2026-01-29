@@ -1,4 +1,7 @@
+using Hotline.Application.Schema.DTO;
+using Hotline.Application.Services;
 using Scalar.AspNetCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,38 +16,29 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 
-    app.MapScalarApiReference(options => 
+    app.MapScalarApiReference(options =>
     {
         options.WithTitle("Hotline WebAPi")
-               .WithTheme(ScalarTheme.DeepSpace) // Tema Mars (alaranjado) ou DeepSpace
+               .WithTheme(ScalarTheme.DeepSpace)
                .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
     });
 }
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+app.MapGet("/tickets", async (TicketService ticketService) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    var tickets = await ticketService.GetAllTicketsAsync();
+    return Results.Ok(tickets);
 })
-.WithName("GetWeatherForecast");
+.WithName("GetAllTickets");
+
+
+app.MapPost("/tickets", async (NewTicketDTO newTicketDTO, TicketService ticketService) =>
+{
+    var externalId = await ticketService.AddTicketAsync(newTicketDTO);
+    return Results.Ok(externalId);
+})
+.WithName("NewTicket");
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

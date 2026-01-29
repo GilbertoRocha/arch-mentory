@@ -9,6 +9,11 @@
   <Folder Name="/src/Infrastructure/">
     <Project Path="src/Infrastructure/Hotline.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/src/Tools/" />
+  <Folder Name="/src/Tools/Database/" />
+  <Folder Name="/src/Tools/Database/Migration/">
+    <Project Path="src/Tools/Database/Migration/Hotline.Tool.Migrations.csproj" />
+  </Folder>
   <Folder Name="/src/WebApi/">
     <Project Path="src/WebApi/Hotline.WebApi.csproj" />
   </Folder>
