@@ -1,5 +1,7 @@
 <Solution>
-  <Folder Name="/src/" />
+  <Folder Name="/src/">
+    <File Path=".env" />
+  </Folder>
   <Folder Name="/src/Application/">
     <Project Path="src/Application/Hotline.Application.csproj" />
   </Folder>

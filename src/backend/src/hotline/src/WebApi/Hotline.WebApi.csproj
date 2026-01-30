@@ -14,6 +14,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Application\Hotline.Application.csproj" />
     <ProjectReference Include="..\Domain\Hotline.Domain.csproj" />
+    <ProjectReference Include="..\Infrastructure\Hotline.Infrastructure.csproj" />
   </ItemGroup>
 
+  
 </Project>

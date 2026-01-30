@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Hotline.Infrastructure.Database.Migrations
+namespace Hotline.Infrastructure.src.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -35,7 +35,8 @@ namespace Hotline.Infrastructure.Database.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<Guid>("ExternalId")
                         .HasColumnType("uuid");
@@ -48,14 +49,18 @@ namespace Hotline.Infrastructure.Database.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tickets");
+                    b.HasIndex("ExternalId")
+                        .IsUnique();
+
+                    b.ToTable("Ticket", (string)null);
                 });
 #pragma warning restore 612, 618
         }

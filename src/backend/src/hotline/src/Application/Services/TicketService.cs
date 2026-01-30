@@ -1,13 +1,13 @@
-﻿namespace Hotline.Application.Services;
+﻿using Hotline.Domain.Factories;
+
+namespace Hotline.Application.Services;
 
 using Domain.Entities;
 using Domain.Interfaces;
-using Hotline.Application.Schema.DTO;
+using Schema.DTO;
 
 public class TicketService(ITicketRepository ticketRepository)
 {
-    private readonly ITicketRepository ticketRepository = ticketRepository;
-
     public async Task<IEnumerable<Ticket>> GetAllTicketsAsync()
     {
         return await ticketRepository.GetAllTicketsAsync();
@@ -15,7 +15,7 @@ public class TicketService(ITicketRepository ticketRepository)
 
     public async Task<Guid> AddTicketAsync(NewTicketDTO ticketDto)
     {
-        Ticket ticket = Ticket.NewTicket(ticketDto.Title, ticketDto.Description);
+        var ticket = TicketFactory.New(ticketDto.Title, ticketDto.Description);
 
         return await ticketRepository.AddTicketAsync(ticket);
     }

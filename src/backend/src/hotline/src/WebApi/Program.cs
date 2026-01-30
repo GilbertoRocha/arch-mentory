@@ -1,13 +1,17 @@
+using Hotline.Application.DependencyInjection;
 using Hotline.Application.Schema.DTO;
 using Hotline.Application.Services;
+using Hotline.Infrastructure.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
 using Scalar.AspNetCore;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddInfrastructure();
+builder.Services.AddApplication();
 
 var app = builder.Build();
 
@@ -24,9 +28,9 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
-app.MapGet("/tickets", async (TicketService ticketService) =>
+app.MapGet("/tickets", async ([FromServices] TicketService ticketService) =>
 {
     var tickets = await ticketService.GetAllTicketsAsync();
     return Results.Ok(tickets);
@@ -34,9 +38,9 @@ app.MapGet("/tickets", async (TicketService ticketService) =>
 .WithName("GetAllTickets");
 
 
-app.MapPost("/tickets", async (NewTicketDTO newTicketDTO, TicketService ticketService) =>
+app.MapPost("/tickets", async ([FromBody] NewTicketDTO newTicketDto, [FromServices] TicketService ticketService) =>
 {
-    var externalId = await ticketService.AddTicketAsync(newTicketDTO);
+    var externalId = await ticketService.AddTicketAsync(newTicketDto);
     return Results.Ok(externalId);
 })
 .WithName("NewTicket");
