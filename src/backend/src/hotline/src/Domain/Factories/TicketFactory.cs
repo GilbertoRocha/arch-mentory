@@ -6,6 +6,6 @@ public static class TicketFactory
 {
     public static Ticket New (string title, string description)
     {
-        return new Ticket(title, description);
+        return Ticket.Create(title, description);
     }
 }

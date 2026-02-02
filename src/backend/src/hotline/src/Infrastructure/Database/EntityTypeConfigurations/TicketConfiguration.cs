@@ -4,27 +4,25 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Hotline.Infrastructure.Database.EntityTypeConfigurations;
 
-public class TicketConfiguration : IEntityTypeConfiguration<Ticket>
+public class TicketConfiguration :  BaseEntityConfiguration<Ticket>
 {
-    public void Configure(EntityTypeBuilder<Ticket> builder)
+    public override void Configure(EntityTypeBuilder<Ticket> builder)
     {
+        base.Configure(builder);
+        
         builder.ToTable("Ticket");
-        builder.HasKey(x => x.Id);
         
         builder.Property(x => x.Title)
             .HasMaxLength(100);
         
         builder.Property(x => x.Description)
-            .HasMaxLength(100);
+            .HasMaxLength(500);
 
         builder.Property(x => x.ExternalId)
             .IsRequired();
         
         builder.HasIndex(x => x.ExternalId)
             .IsUnique();
-
-        builder.Property(x => x.CreatedAt)
-            .IsRequired();
         
         builder.Property(x => x.UpdatedAt);
         

@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
+builder.Services.AddEndPointSingleton();
 
 var app = builder.Build();
 
