@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Hotline.Application.DependencyInjection;
 using Hotline.Infrastructure.DependencyInjection;
 using Hotline.WebApi.Extension.Dev;
@@ -5,15 +6,19 @@ using Hotline.WebApi.Extension.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDevCors(builder.Environment);
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
 builder.Services.AddEndPointSingleton();
+builder.Services.AddDefaultApiVersioning();
 
 var app = builder.Build();
 
+app.UseDevCors(app.Environment);
 app.MapScalar(app.Environment);
 
 //app.UseHttpsRedirection();
