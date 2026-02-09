@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: hotline-webapi
-        image: hotline-webapi:latest
+        image: mentoryregistry.localhost:5000/hotline-webapi:latest
         ports:
         - containerPort: 5002
         env:
@@ -22,3 +22,5 @@ spec:
           value: "Host=host.k3d.internal;Port=5432;Database=Mentory;Username=postgres;Password=postgres" 
         - name: ASPNETCORE_ENVIRONMENT
           value: "Development"
+        - name: ASPNETCORE_URLS 
+          value: "http://+:5002"
