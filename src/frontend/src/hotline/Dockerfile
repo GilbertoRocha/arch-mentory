@@ -14,26 +14,7 @@ FROM nginx:alpine
 COPY --from=build /app/dist/hotline/browser /usr/share/nginx/html
 
 RUN rm /etc/nginx/conf.d/default.conf
-COPY <<EOF /etc/nginx/conf.d/default.conf
-server {
-  listen 80;
-  server_name _;
-  root /usr/share/nginx/html;
-  index index.html;
-
-  # Roteamento SPA
-  location / {
-    try_files $uri $uri/ /index.html;
-  }
-
-  # Arquivos estáticos
-  location ~* \.(?:js|css|ico|png|jpg|jpeg|gif|svg|woff2?|ttf|eot)$ {
-    expires 1y;
-    access_log off;
-    add_header Cache-Control "public";
-  }
-}
-EOF
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
