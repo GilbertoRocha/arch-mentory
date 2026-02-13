@@ -18,6 +18,8 @@ builder.Services.AddDefaultApiVersioning();
 
 var app = builder.Build();
 
+app.UseForwardedHeaders();
+
 app.UseDevCors(app.Environment);
 app.MapScalar(app.Environment);
 
