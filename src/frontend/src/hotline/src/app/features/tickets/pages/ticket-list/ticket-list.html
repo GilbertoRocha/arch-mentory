@@ -1,0 +1,15 @@
+<div class="container">
+
+  <h1>Tickets</h1>
+  <div class="grid">
+    @for (ticket of ticketService.tickets(); track ticket.externalId){
+      <mat-card class="ticket-card">
+        <mat-card-header>
+          <mat-card-title>{{ ticket.title}}</mat-card-title>
+          <mat-card-content>{{ ticket.description }}</mat-card-content>
+        </mat-card-header>
+      </mat-card>
+    }
+  </div>
+</div>
+
