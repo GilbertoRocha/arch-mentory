@@ -30,6 +30,20 @@ services:
     volumes:
       - pgadmin_data:/var/lib/pgadmin
 
+  keyvault:
+    image: nagyesta/lowkey-vault:7.1.9-ubi10-minimal
+    container_name: azure-keyvault
+    ports:
+      - "8443:8443"
+    environment:
+      # Expõe os dados sensíveis (necessário para o simulador funcionar em dev)
+      - LOWKEY_VAULT_SENSITIVE_DATA_EXPOSED=true
+      # arquivo fisico
+      - LOWKEY_VAULT_DB_FILE=/app/data/lowkey-vault.db
+    volumes:
+      # Persiste os segredos na pasta local 
+      - ~/lowkey_data:/app/data
+
 volumes:
   postgres_data:
-  pgadmin_data:
+  pgadmin_data:  

@@ -1,31 +1,47 @@
 #!/bin/bash
 
-# Cores para o output
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-NC='\033[0m'
+echo -e "\e[36m Looking for K3d \e[0m"
 
-echo -e "${BLUE}Iniciando a instalação do k3d e ferramentas auxiliares...${NC}"
+if !command -v k3d &> /dev/null
+then 
+    echo -e "\e[33m K3d not found, instaling... \e[0m"    
 
-# 1. Verificar se o Docker está instalado
-if ! command -v docker &> /dev/null; then
-    echo "Erro: Docker não encontrado. Por favor, instale o Docker primeiro."
-    exit 1
+    sudo apt-get install -y curl
+
+    curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+
+    echo -e "\e[32m K3d installed, version: \e[0m"
+	echo -e "\e[32m $(k3d --version) \e[0m"	    
+else
+    echo -e "\e[32m K3d Already installed, version: \e[0m"
+	echo -e "\e[32m $(k3d --version) \e[0m"	    
 fi
 
-# 2. Instalar k3d
-echo -e "${GREEN}Instalando k3d...${NC}"
-curl -s https://raw.githubusercontent.com | TAG=v5.6.0 bash
 
-# 3. Instalar kubectl (caso não tenha)
-if ! command -v kubectl &> /dev/null; then
-    echo -e "${GREEN}Instalando kubectl...${NC}"
-    curl -LO "https://dl.k8s.io(curl -L -s https://dl.k8s.io)/bin/linux/amd64/kubectl"
-    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-    rm kubectl
+
+echo -e "\e[36m Looking for Kubectl... \e[0m"
+if !command -v kubectl &> /dev/null
+then
+
+    echo -e "\e[33m Kubectrl not found, instaling... \e[0m"    
+
+    sudo apt-get install -y apt-transport-https ca-certificates curl
+
+    # add official key of Google Cloud
+    sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg \
+        https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+    # add lkubernets repo
+    echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] \
+    https://apt.kubernetes.io/ kubernetes-xenial main" | \
+    sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+    sudo apt-get update
+    sudo apt-get install -y kubectl
+
+    echo -e "\e[32m Kubectl installed, version: \e[0m"
+	echo -e "\e[32m $(kubectl version --client) \e[0m"
+else
+    echo -e "\e[32m Kubectl already installed, version: \e[0m"
+	echo -e "\e[32m $(kubectl version --client) \e[0m"
 fi
-
-# 4. Verificar versões instaladas
-echo -e "${BLUE}--- Versões Instaladas ---${NC}"
-k3d --version
-kubectl version --client
