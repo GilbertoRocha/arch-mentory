@@ -13,15 +13,23 @@ spec:
       labels:
         app: hotline-webapi
     spec:
+      hostAliases:
+      - ip: "172.18.0.1"
+        hostnames:
+        - "mentory.vault.localhost"
+        - "mentory.vault.localhost.host.k3d.internal"
+        - "host.k3d.internal"
       containers:
       - name: hotline-webapi
         image: mentoryregistry.localhost:5000/hotline-webapi:latest
         ports:
         - containerPort: 5002
-        env:
-        - name: DB_CONNECTION
-          value: "Host=postgres-db;Port=5432;Database=Mentory;Username=postgres;Password=postgres" 
+        env:        
         - name: ASPNETCORE_ENVIRONMENT
           value: "Development"
         - name: ASPNETCORE_URLS 
-          value: "http://+:5002"
+          value: "http://0.0.0.0:5002"
+        - name: AzureKeyVault__Endpoint
+          value: "https://mentory.vault.localhost.host.k3d.internal:8444"
+        - name: Logging__LogLevel__Npgsql
+          value: "Debug"
