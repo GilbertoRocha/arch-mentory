@@ -25,3 +25,5 @@ spec:
           value: "Development"
         - name: ASPNETCORE_URLS 
           value: "http://+:5002"
+        - name: AzureKeyVault__Endpoint
+          value: "https://mentory.vault.localhost.host.k3d.internal:8443"

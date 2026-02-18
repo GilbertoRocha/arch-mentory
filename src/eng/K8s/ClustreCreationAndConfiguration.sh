@@ -20,7 +20,7 @@ echo -e "\e[34m Starting dependencies \e[0m"
 docker compose -f "$SCRIPT_DIR/../compose/docker-compose.yml" up -d
 
 echo -e "\e[34m Adding secrets \e[0m"
-./AddSecrets.sh
+./../AddSecrets.sh
 
 echo -e "\e[34m Instaling K3d \e[0m"
 ./InstallK3d.sh
