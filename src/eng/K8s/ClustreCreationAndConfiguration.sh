@@ -8,7 +8,7 @@ sudo chmod +x ./CreateCluster.sh
 sudo chmod +x ./BuildDockerImages.sh
 sudo chmod +x ./UpdateImages.sh
 sudo chmod +x ./RunPods.sh
-sudo chmod +x ./AddSecrets.sh
+sudo chmod +x ../AddSecrets.sh
 
 echo -e "\e[34m updating package list \e[0m"
 sudo apt-get update
@@ -18,6 +18,7 @@ echo -e "\e[34m Instaling dependencies \e[0m"
 
 echo -e "\e[34m Starting dependencies \e[0m"
 docker compose -f "$SCRIPT_DIR/../compose/docker-compose.yml" up -d
+docker compose -f "$SCRIPT_DIR/../compose/docker-compose.yml" wait
 
 echo -e "\e[34m Adding secrets \e[0m"
 ./../AddSecrets.sh

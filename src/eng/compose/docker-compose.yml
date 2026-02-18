@@ -16,6 +16,12 @@ services:
       resources:
         limits:
           memory: 1g
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d Mentory"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
 
   pgadmin:
     image: dpage/pgadmin4:latest
@@ -26,24 +32,34 @@ services:
     ports:
       - "8080:80"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     volumes:
       - pgadmin_data:/var/lib/pgadmin
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80/login || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   keyvault:
     image: nagyesta/lowkey-vault:7.1.9-ubi10-minimal
     container_name: azure-keyvault
     ports:
-      - "8443:8443"
+      - "8444:8443"
     environment:
-      # Expõe os dados sensíveis (necessário para o simulador funcionar em dev)
       - LOWKEY_VAULT_SENSITIVE_DATA_EXPOSED=true
-      # arquivo fisico
       - LOWKEY_VAULT_DB_FILE=/app/data/lowkey-vault.db
     volumes:
-      # Persiste os segredos na pasta local 
       - ~/lowkey_data:/app/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -k https://localhost:8444/ || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
 
 volumes:
   postgres_data:
-  pgadmin_data:  
+  pgadmin_data:
