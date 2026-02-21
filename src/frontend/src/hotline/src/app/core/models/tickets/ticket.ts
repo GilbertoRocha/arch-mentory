@@ -1,5 +1,4 @@
 export interface Ticket {
-  id: number;
   externalId: string;
   title: string;
   description: string;
