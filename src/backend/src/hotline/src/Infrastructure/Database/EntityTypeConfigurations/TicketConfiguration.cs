@@ -19,7 +19,8 @@ public class TicketConfiguration :  BaseEntityConfiguration<Ticket>
             .HasMaxLength(500);
 
         builder.Property(x => x.ExternalId)
-            .IsRequired();
+            .IsRequired()
+            .HasDefaultValueSql("gen_random_uuid()");
         
         builder.HasIndex(x => x.ExternalId)
             .IsUnique();
