@@ -1,6 +1,9 @@
 ﻿using Asp.Versioning;
-using Hotline.Application.Schema.DTO;
+using Hotline.Application.Schemas.Input;
+using Hotline.Application.Schemas.Output;
 using Hotline.Application.Services;
+using Hotline.WebApi.Mappers.Requests;
+using Hotline.WebApi.Schemas.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hotline.WebApi.Extension.WebApi;
@@ -18,18 +21,18 @@ public static class TicketEndpointExtension
             .WithApiVersionSet(versionSet)
             .WithTags("Tickets");
         
-        group.MapGet("/", async ([FromServices] TicketService ticketService) =>
+        group.MapGet("/", async ([FromServices] TicketService ticketService, CancellationToken ct) =>
             {
-                var tickets = await ticketService.GetAllTicketsAsync();
+                IEnumerable<TicketOutput> tickets = await ticketService.GetAllTicketsAsync();
                 return Results.Ok(tickets);
             })
             .MapToApiVersion(1, 0)
             .WithName("GetAllTickets");
 
-        group.MapPost("/", async ([FromBody] NewTicketDTO newTicketDto, [FromServices] TicketService ticketService) =>
+        group.MapPost("/", async ([FromBody] NewTicketRequest newTicketRequest, [FromServices] TicketService ticketService, CancellationToken ct) =>
             {
-                var externalId = await ticketService.AddTicketAsync(newTicketDto);
-                return Results.Ok(externalId);
+                TicketOutput newTicket= await ticketService.AddTicketAsync(newTicketRequest.ToNewTicketInput(), ct);
+                return Results.Ok(newTicket.ToTicketResponse());
             })
             .MapToApiVersion(1, 0)
             .WithName("NewTicket");

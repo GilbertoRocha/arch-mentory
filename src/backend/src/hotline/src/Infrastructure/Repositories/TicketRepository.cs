@@ -7,11 +7,11 @@ namespace Hotline.Infrastructure.Repositories;
 
 public class TicketRepository(AppDbContext dbContext) : ITicketRepository
 {
-	public async Task<Guid> AddTicketAsync(Ticket ticket)
+	public async Task<Ticket> AddTicketAsync(Ticket ticket, CancellationToken ct = default)
 	{
-		dbContext.Tickets.Add(ticket);
-		await dbContext.SaveChangesAsync();
-		return ticket.ExternalId;
+		var entry = await dbContext.Tickets.AddAsync(ticket, ct);
+		await dbContext.SaveChangesAsync(ct);
+		return entry.Entity;
 	}
 
 	public Task DeleteTicketAsync(int id)
@@ -19,9 +19,9 @@ public class TicketRepository(AppDbContext dbContext) : ITicketRepository
 		throw new NotImplementedException();
 	}
 
-	public async Task<IEnumerable<Ticket>> GetAllTicketsAsync()
+	public async Task<IEnumerable<Ticket>> GetAllTicketsAsync(CancellationToken ct = default)
 	{
-		return await dbContext.Tickets.ToListAsync();
+		return await dbContext.Tickets.ToListAsync(ct);
 	}
 
 	public Task UpdateTicketAsync(Ticket ticket)
