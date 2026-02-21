@@ -24,6 +24,6 @@ public class Ticket: BaseEntity
 
     internal static Ticket Create(string title, string description)
     {
-        return new Ticket(title, description, Guid.NewGuid(), TicketStatus.New);
+        return new Ticket(title, description, Guid.CreateVersion7(), TicketStatus.New);
     }
 }
