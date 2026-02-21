@@ -22,7 +22,7 @@ public class Ticket: BaseEntity
         Status = status;
     }
 
-    internal static Ticket Create(string title, string description)
+    public static Ticket Create(string title, string description)
     {
         return new Ticket(title, description, Guid.CreateVersion7(), TicketStatus.New);
     }
