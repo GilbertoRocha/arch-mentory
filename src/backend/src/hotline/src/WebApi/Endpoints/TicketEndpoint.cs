@@ -1,14 +1,15 @@
 ﻿using Asp.Versioning;
-using Hotline.Application.Schemas.Input;
 using Hotline.Application.Schemas.Output;
 using Hotline.Application.Services;
+using Hotline.Domain.Shared;
 using Hotline.WebApi.Mappers.Requests;
 using Hotline.WebApi.Schemas.Requests;
+using Hotline.WebApi.Schemas.Responses;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Hotline.WebApi.Extension.WebApi;
+namespace Hotline.WebApi.Endpoints;
 
-public static class TicketEndpointExtension
+public static class TicketEndpoint
 {
     public static IEndpointRouteBuilder MapTicketEndpoint(this IEndpointRouteBuilder ticketEndpoint)
     {
@@ -23,16 +24,28 @@ public static class TicketEndpointExtension
         
         group.MapGet("/", async ([FromServices] TicketService ticketService, CancellationToken ct) =>
             {
-                IEnumerable<TicketOutput> tickets = await ticketService.GetAllTicketsAsync();
-                return Results.Ok(tickets);
+                Result<IEnumerable<TicketOutput>> tickets = await ticketService.GetAllTicketsAsync(ct);
+
+                Result<IEnumerable<TicketResponse>> response = tickets.Map(ticket => ticket.ToTicketResponses());
+                
+                if (!response.IsSuccess)
+                    return Results.BadRequest(response);
+                
+                return Results.Ok(response);
             })
             .MapToApiVersion(1, 0)
             .WithName("GetAllTickets");
 
         group.MapPost("/", async ([FromBody] NewTicketRequest newTicketRequest, [FromServices] TicketService ticketService, CancellationToken ct) =>
             {
-                TicketOutput newTicket= await ticketService.AddTicketAsync(newTicketRequest.ToNewTicketInput(), ct);
-                return Results.Ok(newTicket.ToTicketResponse());
+                Result<TicketOutput> newTicket = await ticketService.AddTicketAsync(newTicketRequest.ToNewTicketInput(), ct);
+                
+                Result<TicketResponse> response = newTicket.Map(ticket => ticket.ToTicketResponse()); 
+                
+                if (!response.IsSuccess)
+                    return Results.BadRequest(response);
+                
+                return Results.Ok(response);
             })
             .MapToApiVersion(1, 0)
             .WithName("NewTicket");

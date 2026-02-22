@@ -1,5 +1,6 @@
 using Hotline.Application.DependencyInjection;
 using Hotline.Infrastructure.DependencyInjection;
+using Hotline.WebApi.Endpoints;
 using Hotline.WebApi.Extension.Dev;
 using Hotline.WebApi.Extension.WebApi;
 

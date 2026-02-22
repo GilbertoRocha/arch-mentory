@@ -1,6 +1,6 @@
 ﻿using Hotline.Domain.Enum;
 
-namespace Hotline.WebApi.Mappers.Responses;
+namespace Hotline.WebApi.Schemas.Responses;
 
 public readonly record struct TicketResponse(
     Guid ExternalId, 
