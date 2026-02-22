@@ -1,7 +1,7 @@
 ﻿using Hotline.Application.Schemas.Input;
 using Hotline.Application.Schemas.Output;
-using Hotline.WebApi.Mappers.Responses;
 using Hotline.WebApi.Schemas.Requests;
+using Hotline.WebApi.Schemas.Responses;
 
 namespace Hotline.WebApi.Mappers.Requests;
 
@@ -22,4 +22,9 @@ public static class TicketMapper
             UpdatedAt: ticketOutput.UpdatedAt,
             ResolvedAt: ticketOutput.ResolvedAt);
 
+    public static IEnumerable<TicketResponse> ToTicketResponses(this IEnumerable<TicketOutput> ticketOutputs)
+    {
+        return ticketOutputs.Select(TicketMapper.ToTicketResponse);
+    }
+        
 }
