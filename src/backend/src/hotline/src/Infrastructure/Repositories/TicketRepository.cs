@@ -15,19 +15,10 @@ public class TicketRepository(AppDbContext dbContext) : ITicketRepository
 		return entry.Entity;
 	}
 
-	public Task DeleteTicketAsync(int id)
-	{
-		throw new NotImplementedException();
-	}
-
 	public async Task<Result<IEnumerable<Ticket>>> GetAllTicketsAsync(CancellationToken ct = default)
 	{
 		var tickets = await dbContext.Tickets.AsNoTracking().ToListAsync(ct);
 		return tickets;
 	}
 
-	public Task UpdateTicketAsync(Ticket ticket)
-	{
-		throw new NotImplementedException();
-	}
 }

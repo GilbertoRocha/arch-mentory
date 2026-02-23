@@ -13,7 +13,7 @@ public readonly record struct Result<T>
         Errors = errors;
     }
     
-    public static Result<T> Success(T value) => new(value, true, Array.Empty<string>());
+    public static Result<T> Success(T value) => new(value, true, []);
     public static Result<T> Failure(params string[] errors) => new(default, false, errors);
     
     public static implicit operator Result<T>(T value) => Success(value);

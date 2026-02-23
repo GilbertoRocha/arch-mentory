@@ -23,14 +23,4 @@ public class TicketService(ITicketRepository ticketRepository)
 
         return savedTicket.Map(saved => saved.ToOutput());
     }
-
-    public async Task UpdateTicketAsync(Ticket ticket)
-    {
-        await ticketRepository.UpdateTicketAsync(ticket);
-    }
-
-    public async Task DeleteTicketAsync(int id)
-    {
-        await ticketRepository.DeleteTicketAsync(id);
-    }
 }

@@ -7,7 +7,7 @@ Console.WriteLine("Applying Migrations...");
 var services = new ServiceCollection();
 
 _ = services.AddDbContext<AppDbContext>(options =>
-	options.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION"),
+	options.UseNpgsql(Environment.GetEnvironmentVariable("DB-CONNECTION"),
 		x => x.MigrationsAssembly("Hotline.Infrastructure")));
 
 var serviceProvider = services.BuildServiceProvider();
