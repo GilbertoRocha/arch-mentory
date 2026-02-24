@@ -24,7 +24,7 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IConfigurationBuilder LoadEnvValues(this IConfigurationBuilder configBuilder, IHostEnvironment environment)
+    public static IConfigurationBuilder LoadEnvValues(this IConfigurationBuilder  configBuilder)
     {
         var currentConfig = configBuilder.Build();
         var vaultEndpoint = currentConfig["AzureKeyVault:Endpoint"];
@@ -32,14 +32,16 @@ public static class DependencyInjection
         if (string.IsNullOrEmpty(vaultEndpoint))
             return configBuilder;
         
+        var env = currentConfig["ASPNETCORE_ENVIRONMENT"] ?? "Production";
         Uri kvUri = new(vaultEndpoint);
 
-        return environment.IsDevelopment() 
-            ? LoadDevAzureKeyVault(kvUri, configBuilder)
-            : configBuilder.AddAzureKeyVault(kvUri, new DefaultAzureCredential());
+        if (env.Equals("Development", StringComparison.OrdinalIgnoreCase))
+            return LoadDevAzureKeyVault(kvUri, configBuilder);
+        
+        return configBuilder.AddAzureKeyVault(kvUri, new DefaultAzureCredential());
     }
 
-    private static IConfigurationBuilder LoadDevAzureKeyVault(Uri kvUri, IConfigurationBuilder configBuilder)
+    private static IConfigurationBuilder  LoadDevAzureKeyVault(Uri kvUri, IConfigurationBuilder  configBuilder)
     {
         SecretClientOptions clientOptions = new();
         
