@@ -20,5 +20,4 @@ public class TicketRepository(AppDbContext dbContext) : ITicketRepository
 		var tickets = await dbContext.Tickets.AsNoTracking().ToListAsync(ct);
 		return tickets;
 	}
-
 }

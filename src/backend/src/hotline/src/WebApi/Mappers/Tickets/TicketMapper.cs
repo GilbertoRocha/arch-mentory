@@ -3,7 +3,7 @@ using Hotline.Application.Schemas.Output;
 using Hotline.WebApi.Schemas.Requests;
 using Hotline.WebApi.Schemas.Responses;
 
-namespace Hotline.WebApi.Mappers.Requests;
+namespace Hotline.WebApi.Mappers.Tickets;
 
 public static class TicketMapper
 {

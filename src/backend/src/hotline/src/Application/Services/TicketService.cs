@@ -11,7 +11,7 @@ public class TicketService(ITicketRepository ticketRepository)
 {
     public async Task<Result<IEnumerable<TicketOutput>>> GetAllTicketsAsync(CancellationToken ct = default)
     {
-        Result<IEnumerable<Ticket>> repoTickets = await ticketRepository.GetAllTicketsAsync(ct);
+        var repoTickets = await ticketRepository.GetAllTicketsAsync(ct);
 
         return repoTickets.Map(ticket => ticket.ToOutput());
     }
@@ -19,7 +19,7 @@ public class TicketService(ITicketRepository ticketRepository)
     public async Task<Result<TicketOutput>> AddTicketAsync(NewTicketInput ticketInput, CancellationToken ct = default)
     {
         var ticket = Ticket.Create(ticketInput.Title, ticketInput.Description);
-        Result<Ticket> savedTicket = await ticketRepository.AddTicketAsync(ticket, ct);
+        var savedTicket = await ticketRepository.AddTicketAsync(ticket, ct);
 
         return savedTicket.Map(saved => saved.ToOutput());
     }

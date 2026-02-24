@@ -19,9 +19,5 @@
     <ProjectReference Include="..\Infrastructure\Hotline.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Mappers\Responses\" />
-  </ItemGroup>
-
   
 </Project>

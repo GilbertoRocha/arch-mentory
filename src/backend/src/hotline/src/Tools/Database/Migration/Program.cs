@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Hotline.Infrastructure.Database;
 
+
 Console.WriteLine("Applying Migrations...");
 
 var services = new ServiceCollection();

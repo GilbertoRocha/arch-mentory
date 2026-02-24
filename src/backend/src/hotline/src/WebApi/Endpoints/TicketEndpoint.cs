@@ -2,7 +2,7 @@
 using Hotline.Application.Schemas.Output;
 using Hotline.Application.Services;
 using Hotline.Domain.Shared;
-using Hotline.WebApi.Mappers.Requests;
+using Hotline.WebApi.Mappers.Tickets;
 using Hotline.WebApi.Schemas.Requests;
 using Hotline.WebApi.Schemas.Responses;
 using Microsoft.AspNetCore.Mvc;
