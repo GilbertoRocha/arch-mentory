@@ -1,1 +1,0 @@
-$env:DB_CONNECTION = "Host=localhost;Port=5432;Database=Mentory;Username=postgres;Password=postgres"
