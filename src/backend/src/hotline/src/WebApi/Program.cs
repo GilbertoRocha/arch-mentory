@@ -7,7 +7,7 @@ using Hotline.WebApi.Extension.WebApi;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Configuration.LoadEnvValues(builder.Environment);
+builder.Configuration.LoadEnvValues();
 builder.Services.AddDevCors(builder.Environment);
 
 // Add services to the container.
