@@ -19,6 +19,8 @@ Todos os scripts necessários para instalar, criar, configurar e executar o clus
 
 - [UpdateImages](./K8s/UpdateImages.sh), Importa as imagens docker para o cluster, as imagens com a tag `Latest`
 
+- [RunMigrations](./RunMigrations.sh), Roda as migrations, usando o KV para buscar a connection string
+
 - [RunPods](./K8s/RunPods.sh), Atualiza os pods e o ingress
 
 
