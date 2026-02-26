@@ -1,0 +1,35 @@
+# Backend Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hotline-webapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hotline-webapi
+  template:
+    metadata:
+      labels:
+        app: hotline-webapi
+    spec:
+      hostAliases:
+      - ip: "172.18.0.1"
+        hostnames:
+        - "mentory.vault.localhost"
+        - "mentory.vault.localhost.host.k3d.internal"
+        - "host.k3d.internal"
+      containers:
+      - name: hotline-webapi
+        image: mentoryregistry.localhost:5000/hotline-webapi:latest
+        ports:
+        - containerPort: 5002
+        env:        
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
+        - name: ASPNETCORE_URLS 
+          value: "http://0.0.0.0:5002"
+        - name: AzureKeyVault__Endpoint
+          value: "https://mentory.vault.localhost.host.k3d.internal:8444"
+        - name: Logging__LogLevel__Npgsql
+          value: "Debug"

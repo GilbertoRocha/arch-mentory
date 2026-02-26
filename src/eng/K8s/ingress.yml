@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hotline-ingress
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: hotline-webapi
+            port:
+              number: 5002
+      - path: /scalar
+        pathType: Prefix
+        backend:
+          service:
+            name: hotline-webapi
+            port:
+              number: 5002
+      - path: /openapi
+        pathType: Prefix
+        backend:
+          service:
+            name: hotline-webapi
+            port:
+              number: 5002
+      - path: / # FRONTEND (deve ser o último da lista, o mais generico)
+        pathType: Prefix
+        backend:
+          service:
+            name: hotline-frontend
+            port:
+              number: 80

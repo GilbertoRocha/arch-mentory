@@ -1,0 +1,33 @@
+<div class="container">
+
+  <h1>Tickets</h1>
+  <div class="grid">
+    @if (!ticketService.tickets().isSuccess) {
+
+      <div class="error-container">
+        <mat-card class="error-card">
+          <mat-card-content>
+            <mat-icon color="warn">error</mat-icon>
+            <div>
+              <strong>Erro ao carregar os tickets</strong>
+              <p>{{ ticketService.tickets().error?.message || 'Ocorreu um erro inesperado.' }}</p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+    } @else {
+      @for (ticket of ticketService.tickets().value; track ticket.externalId){
+        <mat-card class="ticket-card">
+          <mat-card-header>
+            <mat-card-title>{{ ticket.title}}</mat-card-title>
+            <mat-card-content>{{ ticket.description }}</mat-card-content>
+          </mat-card-header>
+        </mat-card>
+      } @empty {
+        <p>Nenhum ticket encontrado.</p>
+      }
+    }
+  </div>
+</div>
+

@@ -1,0 +1,23 @@
+# Frontend Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hotline-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hotline-frontend
+  template:
+    metadata:
+      labels:
+        app: hotline-frontend
+    spec:
+      containers:
+      - name: hotline-frontend
+        image: mentoryregistry.localhost:5000/hotline-frontend:latest
+        ports:
+        - containerPort: 80
+
+
+
