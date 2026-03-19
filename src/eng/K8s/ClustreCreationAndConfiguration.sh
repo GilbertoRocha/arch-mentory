@@ -9,6 +9,7 @@ sudo chmod +x ./BuildDockerImages.sh
 sudo chmod +x ./UpdateImages.sh
 sudo chmod +x ./RunPods.sh
 sudo chmod +x ../AddSecrets.sh
+sudo chmod +x ./InstallOpenLens.sh
 sudo chmod +x ../RunMigrations.sh
 
 echo -e "\e[34m updating package list \e[0m"
