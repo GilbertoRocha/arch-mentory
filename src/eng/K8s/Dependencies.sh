@@ -24,6 +24,8 @@ then
 
     # add the docker user
     sudo usermod -aG docker $USER
+	
+	newgrp docker
 
     echo -e "\e[32m Docker installed, version: \e[0m"
     docker --version
@@ -37,11 +39,17 @@ fi
 echo -e "\e[36m Starting Docker service... \e[0m"
 sudo service docker start
 
+sudo chown root:docker /var/run/docker.sock
+sudo chmod 660 /var/run/docker.sock
+
+
+sleep 2
+
 # Verify if the docker is up and running
-if sudo service docker status | grep -q "is running"; then
+if sudo docker ps > /dev/null 2>&1; then
     echo -e "\e[32m Docker service is up and running! \e[0m"
 else
-    echo -e "\e[31m Docker service failed to start. Try: sudo service docker start \e[0m"
+    echo -e "\e[31m Docker service failed to start. \e[0m"
 fi
 
 
