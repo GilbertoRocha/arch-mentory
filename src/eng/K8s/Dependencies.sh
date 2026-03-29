@@ -25,9 +25,7 @@ then
     # add the docker user
     sudo usermod -aG docker $USER
 	
-	newgrp docker
-
-    echo -e "\e[32m Docker installed, version: \e[0m"
+	echo -e "\e[32m Docker installed, version: \e[0m"
     docker --version
 else
     echo -e "\e[32m Docker already installed, version: \e[0m"
