@@ -3,38 +3,53 @@
 echo -e "\e[36m Looking for docker \e[0m"
 if ! command -v docker &> /dev/null
 then
-	echo -e "\e[33m Docker not found, instaling... \e[0m"
+    echo -e "\e[33m Docker not found, installing... \e[0m"
 
-    # remove old extension, just for safety
-    sudo apt-get remove -y docker docker-engine docker.io containerd runc
+    sudo apt install -y ca-certificates curl gnupg
 
-    sudo apt-get install -y ca-certificates curl gnupg lsb-release
+    # 2. Add Docker's official GPG key:
+    sudo install -m 0755 -d /etc/apt/keyrings
+    
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
-    # add oficial docker key
-    sudo mkdir -p /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
-        sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-
-    # add docker repo
+    # 3. Add the repository to Apt sources (FORMATO RECOMENDADO ATUAL):
     echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
-      https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
       sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-    # Install
-    sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+    sudo apt update
+    sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+    # add the docker user
+    sudo usermod -aG docker $USER
 
     echo -e "\e[32m Docker installed, version: \e[0m"
-	echo -e "\e[32m $(docker --version) \e[0m"	
-
+    docker --version
 else
-    echo -e "\e[32m Docker already install, version: "
-	echo -e "\e[32m $(docker --version) \e[0m"
+    echo -e "\e[32m Docker already installed, version: \e[0m"
+    docker --version
 fi
+
+
+# Starting docker
+echo -e "\e[36m Starting Docker service... \e[0m"
+sudo service docker start
+
+# Verify if the docker is up and running
+if sudo service docker status | grep -q "is running"; then
+    echo -e "\e[32m Docker service is up and running! \e[0m"
+else
+    echo -e "\e[31m Docker service failed to start. Try: sudo service docker start \e[0m"
+fi
+
+
 
 echo -e "\e[36m Creating folders for KV \e[0m"
 
-# folder for KV volume
-sudo mkdir -p ~/lowkey_data
+# folder for KV volume - Não precisa de sudo para criar na sua Home!
+mkdir -p ~/lowkey_data
+# Se criou sem sudo, o owner já é você. Mas mantemos por segurança:
 sudo chown -R $USER:$USER ~/lowkey_data
 chmod -R 777 ~/lowkey_data
