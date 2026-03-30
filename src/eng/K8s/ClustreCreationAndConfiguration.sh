@@ -11,6 +11,7 @@ sudo chmod +x ./RunPods.sh
 sudo chmod +x ../AddSecrets.sh
 sudo chmod +x ./InstallOpenLens.sh
 sudo chmod +x ../RunMigrations.sh
+sudo chmod +x ./../scripts/InstallDotnetCore.sh
 
 echo -e "\e[34m updating package list \e[0m"
 sudo apt-get update
@@ -24,6 +25,9 @@ docker compose -f "$SCRIPT_DIR/../compose/docker-compose.yml" wait
 
 echo -e "\e[34m Adding secrets \e[0m"
 ./../AddSecrets.sh
+
+echo -e "\e[34m Installing DotNet Core \e[0m"
+./../scripts/InstallDotnetCore.sh
 
 echo -e "\e[34m Instaling K3d \e[0m"
 ./InstallK3d.sh

@@ -25,18 +25,17 @@ then
 
     echo -e "\e[33m Kubectrl not found, instaling... \e[0m"    
 
-    sudo apt-get install -y apt-transport-https ca-certificates curl
+    sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
+	sudo mkdir -p /etc/apt/keyrings
+	
 
-    # add official key of Google Cloud
-    sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg \
-        https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    # add key of GPG
+	curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
     # add lkubernets repo
-    echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] \
-    https://apt.kubernetes.io/ kubernetes-xenial main" | \
-    sudo tee /etc/apt/sources.list.d/kubernetes.list
+    echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+	
 
-    sudo apt-get update
     sudo apt-get install -y kubectl
 
     echo -e "\e[32m Kubectl installed, version: \e[0m"
