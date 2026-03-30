@@ -36,9 +36,10 @@ fi
 # Starting docker
 echo -e "\e[36m Starting Docker service... \e[0m"
 sudo service docker start
+sleep 2
 
 sudo chown root:docker /var/run/docker.sock
-sudo chmod 660 /var/run/docker.sock
+sudo chmod 666 /var/run/docker.sock
 
 
 sleep 2
@@ -50,7 +51,7 @@ else
     echo -e "\e[31m Docker service failed to start. \e[0m"
 fi
 
-
+sleep 5
 
 echo -e "\e[36m Creating folders for KV \e[0m"
 
