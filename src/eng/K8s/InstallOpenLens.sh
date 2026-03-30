@@ -26,9 +26,20 @@ if [ ! -f "$DEST" ]; then
 fi
 
 # create the alias
-if ! grep -q "alias ${ALIAS}=" ~/.zshrc; then
-    echo -e "\e[33m Creating the alias ${ALIAS}... \e[0m"
-	echo "alias ${ALIAS}='$DEST --no-sandbox > /dev/null 2>&1 &'" >> ~/.zshrc
-fi
+echo -e "\e[34m Creating OpenLens Alias '${ALIAS}' ... \e[0m"
 
+SHELL_CONFIGS=("$HOME/.bashrc" "$HOME/.zshrc")
+
+for CONFIG_FILE in "${SHELL_CONFIGS[@]}"; do
+    # if exists
+    if [ -f "$CONFIG_FILE" ]; then
+        # if the alias exists
+        if ! grep -qF "${ALIAS_LINE}" "$CONFIG_FILE"; then
+            echo "${ALIAS_LINE}" >> "$CONFIG_FILE"
+            echo -e "\e[32m Alias added on $CONFIG_FILE \e[0m"
+        else
+            echo -e "\e[33m Alias already configured on $CONFIG_FILE... \e[0m"
+        fi
+    fi
+done
 echo -e "\e[32m OpenLens installed and alias ${ALIAS} configured \e[0m"
