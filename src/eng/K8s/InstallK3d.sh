@@ -2,7 +2,7 @@
 
 echo -e "\e[36m Looking for K3d \e[0m"
 
-if !command -v k3d &> /dev/null
+if ! command -v k3d &> /dev/null
 then 
     echo -e "\e[33m K3d not found, instaling... \e[0m"    
 
@@ -20,7 +20,7 @@ fi
 
 
 echo -e "\e[36m Looking for Kubectl... \e[0m"
-if !command -v kubectl &> /dev/null
+if ! command -v kubectl &> /dev/null
 then
 
     echo -e "\e[33m Kubectrl not found, instaling... \e[0m"    
