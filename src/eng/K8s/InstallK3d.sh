@@ -23,20 +23,24 @@ echo -e "\e[36m Looking for Kubectl... \e[0m"
 if ! command -v kubectl &> /dev/null
 then
 
-    echo -e "\e[33m Kubectrl not found, instaling... \e[0m"    
 
-    sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
+	sudo rm -f /etc/apt/sources.list.d/kubernetes.list
+	sudo rm -f /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+	# Install dependencies
+	sudo apt-get update
+	sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
 	sudo mkdir -p /etc/apt/keyrings
-	
 
-    # add key of GPG
-	curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+	# Add new key GPG 
+	curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg --yes
 
-    # add lkubernets repo
-    echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
-	
+	# Add new repo
+	echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
-    sudo apt-get install -y kubectl
+	# the apt-get update is needed because a new repo was added
+	sudo apt-get update
+	sudo apt-get install -y kubectl
 
     echo -e "\e[32m Kubectl installed, version: \e[0m"
 	echo -e "\e[32m $(kubectl version --client) \e[0m"
