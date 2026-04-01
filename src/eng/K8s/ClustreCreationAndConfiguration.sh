@@ -9,6 +9,7 @@ sudo chmod +x ./BuildDockerImages.sh
 sudo chmod +x ./UpdateImages.sh
 sudo chmod +x ./RunPods.sh
 sudo chmod +x ../AddSecrets.sh
+sudo chmod +x ../AddMigrationSecrets.sh
 sudo chmod +x ./InstallOpenLens.sh
 sudo chmod +x ../RunMigrations.sh
 sudo chmod +x ./../scripts/InstallDotnetCore.sh
@@ -41,8 +42,14 @@ echo -e "\e[34m Building Images \e[0m"
 echo -e "\e[34m Importing Docker Imagens to K3d \e[0m"
 ./UpdateImages.sh
 
+echo -e "\e[34m Adding Migration secrets \e[0m"
+../AddMigrationSecrets.sh
+
 echo -e "\e[34m Running the Migrations \e[0m"
 ./../RunMigrations.sh
+
+echo -e "\e[34m Adding secrets \e[0m"
+./../AddSecrets.sh
 
 echo -e "\e[34m Starting the pods \e[0m"
 ./RunPods.sh
