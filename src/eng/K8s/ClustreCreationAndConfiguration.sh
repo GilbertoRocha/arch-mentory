@@ -62,3 +62,6 @@ echo -e "\e[34m $(kubectl get pods) \e[0m"
 
 echo -e "\e[34m Installing OpenLens \e[0m"
 ./InstallOpenLens.sh
+
+echo -e "\e[34m Starting OpenLens \e[0m"
+openlens
