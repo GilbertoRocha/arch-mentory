@@ -24,9 +24,9 @@ public static class TicketEndpoint
         
         group.MapGet("/", async ([FromServices] TicketService ticketService, CancellationToken ct) =>
             {
-                Result<IEnumerable<TicketOutput>> tickets = await ticketService.GetAllTicketsAsync(ct);
+                var tickets = await ticketService.GetAllTicketsAsync(ct);
 
-                Result<IEnumerable<TicketResponse>> response = tickets.Map(ticket => ticket.ToTicketResponses());
+                var response = tickets.Map(ticket => ticket.ToTicketResponses());
                 
                 if (!response.IsSuccess)
                     return Results.BadRequest(response);

@@ -5,9 +5,9 @@ namespace Hotline.Application.Mappers.Outputs;
 
 public static class TicketMapper
 {
-    public static IEnumerable<TicketOutput> ToOutput(this IEnumerable<Ticket> tickets)
+    public static List<TicketOutput> ToOutput(this List<Ticket> tickets)
     {
-        return tickets.Select(TicketMapper.ToOutput);
+        return tickets.Select(ToOutput).ToList();
     }
 
     public static TicketOutput ToOutput(this Ticket ticket)
