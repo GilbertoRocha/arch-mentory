@@ -1,7 +1,10 @@
 ﻿using Asp.Versioning;
 using Hotline.Application.Schemas.Output;
 using Hotline.Application.Services;
+using Hotline.Domain.Entities;
+using Hotline.Domain.Interfaces;
 using Hotline.Domain.Shared;
+using Hotline.Domain.Specifications.Tickets;
 using Hotline.WebApi.Mappers.Tickets;
 using Hotline.WebApi.Schemas.Requests;
 using Hotline.WebApi.Schemas.Responses;
@@ -22,19 +25,19 @@ public static class TicketEndpoint
             .WithApiVersionSet(versionSet)
             .WithTags("Tickets");
         
-        group.MapGet("/", async ([FromServices] TicketService ticketService, CancellationToken ct) =>
+        group.MapGet("/", async ([FromServices] IRepository<Ticket> repository, CancellationToken ct) =>
             {
-                var tickets = await ticketService.GetAllTicketsAsync(ct);
+                
+                var spec = new ActiveTicketsSpec();
+                var ticketResponse = await repository.ListBySpecAndProjAsync(spec, TicketMapper.ToResponse, ct);
 
-                var response = tickets.Map(ticket => ticket.ToTicketResponses());
+                if (ticketResponse.Count == 0)
+                    return Results.NoContent();
                 
-                if (!response.IsSuccess)
-                    return Results.BadRequest(response);
-                
-                return Results.Ok(response);
+                return Results.Ok(ticketResponse);
             })
             .MapToApiVersion(1, 0)
-            .WithName("GetAllTickets");
+            .WithName("GetActiveTickets");
 
         group.MapPost("/", async ([FromBody] NewTicketRequest newTicketRequest, [FromServices] TicketService ticketService, CancellationToken ct) =>
             {
